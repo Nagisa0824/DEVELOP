@@ -1,0 +1,12 @@
+<!--ユーザー検索でない場合は投稿検索になる-->
+<% if @range == "User" %>
+    <% @users.each do |user| %>
+        <%= user.name %>
+    <% end %>
+<% else %>
+    <% @posts.each do |post| %>
+        <%= post.body %>
+    <% end %>
+<% elsif %>
+
+<% end %>

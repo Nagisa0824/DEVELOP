@@ -10,6 +10,7 @@ class PostsController < ApplicationController
     @posts = Post.all
     @post = Post.new
     @user = current_user
+
   end
 
   def destroy
@@ -39,8 +40,6 @@ class PostsController < ApplicationController
     end
   end
 
-
-
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
@@ -59,6 +58,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:body)
+    params.require(:post).permit(:body,:image)
   end
 end

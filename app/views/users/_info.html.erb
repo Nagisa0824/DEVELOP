@@ -14,6 +14,7 @@
     <th>followers</th>
     <th><%= link_to user.followers.count,user_followers_path(user.id) %></th>
   </tr>
+
 </table>
 
 
@@ -22,4 +23,12 @@
 <div class='div'>
   <%= link_to '',edit_user_path(user),class: "btn btn-outline-secondary btn-block fas fa-user-cog edit_user_#{user.id}" %>
 </div>
+<% end %>
+
+<br>
+<%= form_with url: finder_path, method: :get, local: :true do |f| %>
+      <%= f.select :range, options_for_select([['User'], ['Post']]) %>
+      <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["部分一致","partial_match"]]) %>
+      <%= f.text_field :word %>
+      <%= f.submit "検索" %>
 <% end %>
