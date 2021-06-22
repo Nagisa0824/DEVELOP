@@ -7,10 +7,9 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
     @post = Post.new
     @user = current_user
-
+    @posts = Post.where(user_id: [current_user.id, *current_user.following_ids])
   end
 
   def destroy
