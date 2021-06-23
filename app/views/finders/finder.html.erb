@@ -1,12 +1,39 @@
 <!--ユーザー検索でない場合は投稿検索になる-->
-<% if @range == "User" %>
-    <% @users.each do |user| %>
-        <%= user.name %>
+<table>
+    <% if @range == "User" %>
+        <% @users.each do |user| %>
+            <tr>
+                 <td><%= link_to user_path(user) do %>
+                         <%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg") %>
+                 </td><% end %>
+                 <td><%= user.name %></td>
+                 <td><%= user.introduction %></td>
+                 <td>
+                    <% if current_user.following?(user) %>
+                        <button type="button" class="btn btn-outline-dark ">
+                            <%= link_to "フォロー中", user_relationships_path(user.id), method: :delete,class:'fas fa-user-check' %>
+                        </button>
+                     <% else %>
+                        <button type="button" class="btn btn-outline-dark ">
+                            <%= link_to "フォローする", user_relationships_path(user.id), method: :post,class:'fas fa-user-plus' %>
+                        </button>
+                    <% end %>
+                 </td>
+            </tr>
+        <% end %>
+    <% elsif %>
+        <% @posts.each do |post| %>
+            
+            <tr>
+                <td><%= link_to user_path(post.user) do %>
+                    <%= attachment_image_tag(post.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg") %>
+                 <% end %>
+                </td>
+                <td><%= post.user.name %></td>
+                <td><%= link_to post.body, post_path(post), class: "post_#{post.id}" %></td>
+            </tr>
+        <% end %>
+    <% else %>
+          <p>該当する結果はありません</p>
     <% end %>
-<% else %>
-    <% @posts.each do |post| %>
-        <%= post.body %>
-    <% end %>
-<% elsif %>
-
-<% end %>
+</table>

@@ -15,10 +15,15 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :post_comments, dependent: :destroy
 
+# チャット機能
   has_many :user_rooms
   has_many :chats
   has_many :rooms, through: :user_rooms
-
+  
+  # 通知機能　紐付け
+  has_many :active_notifications, class_name: "Notification", foreign_key: "visiter_id", dependent: :destroy
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "visited_id", dependent: :destroy
+  
   def follow(user_id)
     relationships.create(followed_id: user_id)
   end
@@ -38,5 +43,17 @@ class User < ApplicationRecord
   end
 
   attachment :profile_image, destroy: false
+  
+  # フォロー時通知機能
+  def create_notification_follow!(current_user)
+    temp = Notification.where(["visiter_id = ? and visited_id = ? and action = ? ",current_user.id, id, 'follow'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        visited_id: id,
+        action: 'follow'
+      )
+      notification.save if notification.valid?
+    end
+  end
 
 end

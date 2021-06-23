@@ -4,7 +4,10 @@ class PostCommentsController < ApplicationController
     comment = current_user.post_comments.new(post_comment_params)
     comment.post_id = post.id
     comment.save
+      # 通知機能
+      
     redirect_to post_path(post)
+    # ここまで
   end
 
   def destroy
