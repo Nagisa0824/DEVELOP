@@ -7,60 +7,72 @@
       <%= render 'form', post: @posts %>
     </div>
     <div class='col-md-9'>
+        
   		<h2>Post detail</h2>
-  		<table class='table'>
+      <div class="row">
   		  <tr>
-  		    <td><%= link_to user_path(@user.id) do %>
-            <%= attachment_image_tag(@post.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %><br>
-            <%= @user.name %>
-            <% end %>
-          </td>
-          <td><%= @post.body %></td>
-          <td><%= attachment_image_tag @post, :image, :fill, 100, 100, format: 'jpeg' %></td>
-          <% if @user.id == current_user.id %>
-          <td><%= link_to 'Edit', edit_post_path(@post), class: "btn btn-sm btn-success edit_post_#{@post.id}" %></td>
-          <td><%= link_to 'Destroy', post_path(@post), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_post_#{@post.id}"%></td>
-          <% end %>
+  		    <div class="col-2">
+  		      <td>
+  		       <%= link_to user_path(@user.id) do %>
+                <%= attachment_image_tag(@post.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %><br>
+              <% end %>
+  		      </td>
+  		    </div>
+    		  <div class="col-10">
+    		    <td><%= @user.name %></td>
+    		    <td>
+    		      <% if current_user.following?(@user) %>
+                <button type="button" class="btn btn-outline-dark ">
+                  <%= link_to "フォロー中", user_relationships_path(@user.id), method: :delete,class:'fas fa-user-check' %>
+                </button>
+              <% else %>
+               <button type="button" class="btn btn-outline-dark ">
+                 <%= link_to "フォローする", user_relationships_path(user.id), method: :post,class:'fas fa-user-plus' %>
+               </button>
+              <% end %>
+    		    </td>
+    		    <td><%= @post.created_at %></td>
+    		    <div class="nested col-12"><p></p></div>
+    		    <div class="nested col-10">
+    		      <td><%= @post.body %></td>
+    		      <div class="nested col-10">
+    		        <td><%= attachment_image_tag @post, :image, :fill, 150, 100, format: 'jpeg' %></td>
+    		        <div class="nested col-12">
+    		          <td><p></p></td>
+    		        </div>
+    		        <div class="nested col-5">
+    		          <td>
+      		          <% if @user.id == current_user.id %>
+                       <td><%= link_to 'Destroy', post_path(@post), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_post_#{@post.id}"%></td>
+                    <% end %>
+    		          </td>
+    		        </div>
+    		        <div class="nested col-4">
+    		          <!--いいね機能-->
+    		          <td>
+                    <div id="favorites_buttons_<%= @post.id %>">
+                      <%= render partial: 'favorites/favorite', locals: { post: @post} %>
+                    </div>
+                  </td>
+    		        </div>
+    		      </div>
+    		    </div>
+    		  </div>
           <!--↓いいね機能-->
-           <% if @post.favorited_by?(current_user) %>
-            <p>
-              <%= link_to post_favorites_path(@post), method: :delete do %>
-                ♥<%= @post.favorites.count %> いいね
-              <% end %>
-            </p>
-           <% else %>
-            <p>
-              <%= link_to post_favorites_path(@post), method: :post do %>
-                ♡<%= @post.favorites.count %> いいね
-              <% end %>
-            </p>
-          <% end %>
         </tr>
-        <tr>
-          <%= link_to 'いいねユーザー',post_favorite_users_path(@post) %>
-        </tr>
-      </table>
-
-      <div class="comments">
-        <div class="new-comment">
-        <%= form_with(model:[@post, @post_comment], local: true) do |f| %>
-          <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに" %>
-          <%= f.submit "送信する" %>
+      </div>
+        
+      <!--コメント機能-->
+      <h2>コメント一覧</h2>
+        <% if user_signed_in? %>
+          <%= render partial: 'post_comments/form', locals: { comment: @comment, post: @post } %>
         <% end %>
-        </div>
-        <p>コメント件数：<%= @post.post_comments.count %></p>
-        <% @post.post_comments.reverse.each do |post_comment| %>
-          <p><%= image_tag('no_image.jpg') %></p>
-          <%= post_comment.user.name %>
-          <%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
-          <% if post_comment.user == current_user %>
-          <div class="comment-delete">
-          　<%= link_to "削除", post_post_comment_path(post_comment.post, post_comment), method: :delete %>
+        
+        <div class="comments_index">
+          <div id='comments_area'>
+            <%= render partial: 'post_comments/index', locals: { comments: @comments } %>
           </div>
-          <% end %>
-        <% end %>
         </div>
-
-    </div>
+        
   </div>
 </div>
