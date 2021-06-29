@@ -1,20 +1,19 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-6">
-            <h2 id="room" data-room="<%= @room.id %>" data-user="<%= current_user.id %>"><%= @user.name %> さんとのチャット</h2>
-
+            <h2 class="lo" id="room" data-room="<%= @room.id %>" data-user="<%= current_user.id %>"><%= @user.name %> さんとのチャット</h2>
             <table class="message table">
               <thead>
                 <tr>
-                  <th style="text-align: left; font-size: 20px;"><%= current_user.name %></th>
-                  <th style="text-align: right; font-size: 20px;"><%= @user.name %></th>
+                  <th style="text-align: left; font-size: 20px;"><font color=white><%= current_user.name %></th>
+                  <th style="text-align: right; font-size: 20px;"><font color=white><%= @user.name %></th>
                 </tr>
               </thead>
               <% @chats.each do |chat| %>
                 <% if chat.user_id == current_user.id %>
                 <tbody>
                   <tr>
-                    <th>
+                    <th><font color=white>
                       <p style="text-align: left;"><%= chat.message %></p>
                     </th>
                     <th></th>
@@ -25,7 +24,7 @@
                   <tr>
                     <th></th>
                     <th>
-                      <p style="text-align: right;"><%= chat.message %></p>
+                      <p style="lo text-align: right;"><%= chat.message %></p>
                     </th>
                   </tr>
                 </tbody>

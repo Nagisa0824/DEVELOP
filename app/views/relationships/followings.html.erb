@@ -1,36 +1,52 @@
-<h1>Following User</h1>
-<% if @users.exists? %>
-<table>
-    <thead>
-        <tr>
-            <th>image</th>
-            <th>name</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container">
+    <h2 class="lo">Following User</h2>
+    <% if @users.exists? %>
         <% @users.each do |user| %>
-            <tr>
-                <td>
-                  <%= link_to user_path(user.id) do %>
-                     <%= attachment_image_tag user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg" %>
-                  <% end %>
-                </td>
-                <td><%= user.name%></td>
-                <td><p>フォロワー中<%= user.followings.count %>人</p></td>
-                <td><p>フォロワー<%= user.followers.count %>人</p></td>
-                <td>
-                    <% if current_user.following?(user) %>
-                     <%= link_to "フォロー中", user_relationships_path(user.id), method: :delete %>
-                    <% else %>
-                     <%= link_to "フォローする", user_relationships_path(user.id), method: :post %>
-                    <% end %>
-                </td>
-            </tr>
+            <div class="row border p-2">
+                <tr>
+                    <div class="col-2">
+                        <td>
+                            <%= link_to user_path(user.id) do %>
+                                <%= attachment_image_tag user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg" %>
+                            <% end %>
+                        </td>
+                    </div>
+                    <div class="col-9">
+                        <td><%= link_to user.name,user_path(user.id)%></td>/
+                        <td>
+                          <%= link_to user_followings_path(user.id) do %>
+                            <%= user.followings.count%> フォロー中
+                          <% end %>/
+                        </td>
+                        <td>
+                          <%= link_to user_followers_path(user.id) do %>
+                            <%= user.followers.count%> フォロワー
+                          <% end %>/
+                        </td>
+                        <td>
+                            <% if current_user.following?(user) %>
+                                <button type="button" class="btn btn-outline-dark ">
+                                  <%= link_to "フォロー中", user_relationships_path(user.id), method: :delete,class:'fas fa-user-check' %>
+                                </button>
+                              <% else %>
+                               <button type="button" class="btn btn-outline-dark ">
+                                 <%= link_to "フォローする", user_relationships_path(user.id), method: :post,class:'fas fa-user-plus' %>
+                               </button>
+                              <% end %>
+                        </td>
+                        <div class="nested col-12">
+                            <td><font color=white><%= user.introduction%></td>
+                        </div>
+                    </div>
+                    <div class="col-1"></div>
+                </tr>
+            </div>
         <% end %>
-    </tbody>
-</table>
-<% else %>
-<p>ユーザーはいません</p>
-<% end %>
-
-<%= paginate @users %>
+    <% else %>
+        <div class="mx-auto">
+            <p class="lo">ユーザーはいません</p>
+        </div>
+    <% end %>
+   
+    <%= paginate @users %>
+</div>

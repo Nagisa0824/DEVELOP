@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   get 'chat/:id' => 'chats#show', as: 'chat'
   resources :chats, only: [:create]
   
-  resources :notifications, only: [:index, :destroy]
   resources :posts do
   resource :favorites, only: [:create, :destroy,:show]
   resources :post_comments, only: [:create, :destroy]

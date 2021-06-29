@@ -1,26 +1,21 @@
 <table class='table'>
   <tr><%= attachment_image_tag user, :profile_image, :fill, 200, 200, fallback: "no_image.jpg" %></tr>
   <tr>
-	  <th><%= user.name %></th>
+	  <th class="lo"><%= user.name %></th>
   </tr>
   <tr>
-    <th><%= user.introduction %></th>
+    <th><font color=white><%= user.introduction %></th>
   </tr>
   <tr>
-     <th>フォロー中</th>
+     <th class="lo">フォロー中</th>
      <th><%= link_to user.followings.count, user_followings_path(user.id) %></th>
   </tr>
   <tr>
-    <th>フォロワー</th>
+    <th class="lo">フォロワー</th>
     <th><%= link_to user.followers.count,user_followers_path(user.id) %></th>
   </tr>
   <tr>
-    <th>
-      
-    </td>
-  </th>
-  <tr>
-    <th><%= link_to 'いいね一覧', post_favorites_path(user.id) %></th>
+    <th class="lo"><%= link_to 'いいね一覧', post_favorites_path(user.id) %></th>
   </tr>
   
 

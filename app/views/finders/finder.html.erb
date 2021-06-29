@@ -1,39 +1,97 @@
 <!--ユーザー検索でない場合は投稿検索になる-->
-<table>
+<div class="container">
+    <h2 class="lo">Search</h2>
     <% if @range == "User" %>
         <% @users.each do |user| %>
-            <tr>
-                 <td><%= link_to user_path(user) do %>
-                         <%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg") %>
-                 </td><% end %>
-                 <td><%= user.name %></td>
-                 <td><%= user.introduction %></td>
-                 <td>
-                    <% if current_user.following?(user) %>
-                        <button type="button" class="btn btn-outline-dark ">
-                            <%= link_to "フォロー中", user_relationships_path(user.id), method: :delete,class:'fas fa-user-check' %>
-                        </button>
-                     <% else %>
-                        <button type="button" class="btn btn-outline-dark ">
-                            <%= link_to "フォローする", user_relationships_path(user.id), method: :post,class:'fas fa-user-plus' %>
-                        </button>
-                    <% end %>
-                 </td>
-            </tr>
+            <div class="row border p-2">
+                
+                <tr>
+                    <div class="col-2">
+                        <td>
+                             <%= link_to user_path(user) do %>
+                                 <%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                            <% end %>
+                        </td>
+                    </div>
+                    <div class="col-9">
+                        <td><font color=white><%= link_to user.name,user_path(user.id) %></td>/
+                        <td>
+                            <%= link_to user_followings_path(user.id) do %>
+                                <%= user.followings.count%> フォロー中
+                            <% end %>/
+                        </td>
+                        <td>
+                          <%= link_to user_followers_path(user.id) do %>
+                            <%= user.followers.count%> フォロワー
+                          <% end %>/
+                        </td>
+                        <td>
+                            <% if current_user.following?(user) %>
+                                <button type="button" class="btn btn-outline-dark ">
+                                    <%= link_to "フォロー中", user_relationships_path(user.id), method: :delete,class:'fas fa-user-check' %>
+                                </button>
+                            <% else %>
+                                <button type="button" class="btn btn-outline-dark ">
+                                    <%= link_to "フォローする", user_relationships_path(user.id), method: :post,class:'fas fa-user-plus' %>
+                                </button>
+                            <% end %>
+                        </td>
+                        <div class="nested col-12">
+                            <%= user.introduction%>
+                        </div>
+                    </div>
+                    <div class="col-1"></div>
+                </tr>
+            </div>
         <% end %>
     <% elsif %>
         <% @posts.each do |post| %>
-            
-            <tr>
-                <td><%= link_to user_path(post.user) do %>
-                    <%= attachment_image_tag(post.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg") %>
-                 <% end %>
-                </td>
-                <td><%= post.user.name %></td>
-                <td><%= link_to post.body, post_path(post), class: "post_#{post.id}" %></td>
-            </tr>
+            <div class="row border p-2">
+                <tr>
+                    <div class="col-2">
+                        <td>
+                            <%= link_to user_path(post.user) do %>
+                                <%= attachment_image_tag(post.user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %>
+                            <% end %>
+                        </td>
+                    </div>
+                    <div class="col-9">
+                        <td><font color=white><%= post.user.name %></td>
+                        <td>
+                            
+                        </td>
+                        <td><%= post.created_at %></td>
+                        <div class="nested col-12">
+                            <td><%= link_to post.body, post_path(post), class: "post_#{post.id}" %></td>
+                        </div>
+                        <div class="nested col-12">
+                            <td><%= attachment_image_tag @post, :image, :fill, 150, 100, format: 'jpeg' %></td>
+                        </div>
+                        <div class="nested col-12">
+                            <td><%= link_to post.post_comments.count,post_path(post.id),class:"far fa-comment" %></td>
+                            <td>
+                              <div id="favorites_buttons_<%= post.id %>">
+                                    <% if post.favorited_by?(current_user) %>
+                                      <p>
+                                        <%= link_to post_favorites_path(post), method: :delete, remote: true do %>
+                                      ♥<%= post.favorites.count %> いいね
+                                    <% end %>
+                                      </p>
+                                     <% else %>
+                                      <p>
+                                        <%= link_to post_favorites_path(post), method: :post, remote: true do %>
+                                         ♡<%= post.favorites.count %> いいね
+                                    <% end %>
+                                      </p>
+                                   <% end %>
+                                </div>
+                            </td>
+                        </div>
+                    </div>
+                </tr>
+            </div>
         <% end %>
     <% else %>
-          <p>該当する結果はありません</p>
+          <p class="lo">該当する結果はありません</p>
     <% end %>
-</table>
+</div>

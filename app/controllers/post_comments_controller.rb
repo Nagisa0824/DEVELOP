@@ -12,7 +12,7 @@ class PostCommentsController < ApplicationController
   def destroy
     @comment = PostComment.find(params[:id])
     if @comment.destroy
-      render :index
+      #render :index
     end
   end
 

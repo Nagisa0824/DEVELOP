@@ -1,15 +1,15 @@
 <div class='container-fluid'>
-  <div class='row mt-5'>
+  <div class='row'>
     <div class='col-sm-3'>
-      <h2>User info</h2>
+      <h2 class="lo">User info</h2>
       <%= render 'users/info', user: @user %>
-      <h2 class="mt-3">New Post</h2>
-      <%= render 'form', post: @posts %>
+      <h2 class="lo">New Post</h2>
+      <%= render 'form', post: @post %>
     </div>
-    <div class='col-md-9'>
+    <div class='col-9'>
         
-  		<h2>Post detail</h2>
-      <div class="row">
+  		<h2 class="lo">Post detail</h2>
+      <div class="row border p-2">
   		  <tr>
   		    <div class="col-2">
   		      <td>
@@ -19,7 +19,7 @@
   		      </td>
   		    </div>
     		  <div class="col-10">
-    		    <td><%= @user.name %></td>
+    		    <td><font color=white><%= @user.name %></td>
     		    <td>
     		      <% if current_user.following?(@user) %>
                 <button type="button" class="btn btn-outline-dark ">
@@ -27,14 +27,14 @@
                 </button>
               <% else %>
                <button type="button" class="btn btn-outline-dark ">
-                 <%= link_to "フォローする", user_relationships_path(user.id), method: :post,class:'fas fa-user-plus' %>
+                 <%= link_to "フォローする", user_relationships_path(@user.id), method: :post,class:'fas fa-user-plus' %>
                </button>
               <% end %>
     		    </td>
-    		    <td><%= @post.created_at %></td>
+    		    <td><font color=white><%= @post.created_at %></td>
     		    <div class="nested col-12"><p></p></div>
     		    <div class="nested col-10">
-    		      <td><%= @post.body %></td>
+    		      <td><font color=white><%= @post.body %></td>
     		      <div class="nested col-10">
     		        <td><%= attachment_image_tag @post, :image, :fill, 150, 100, format: 'jpeg' %></td>
     		        <div class="nested col-12">
@@ -58,18 +58,17 @@
     		      </div>
     		    </div>
     		  </div>
-          <!--↓いいね機能-->
         </tr>
       </div>
         
       <!--コメント機能-->
-      <h2>コメント一覧</h2>
+      <h2 class="lo">Comments</h2>
         <% if user_signed_in? %>
           <%= render partial: 'post_comments/form', locals: { comment: @comment, post: @post } %>
         <% end %>
         
         <div class="comments_index">
-          <div id='comments_area'>
+          <div id='post_comments_area'>
             <%= render partial: 'post_comments/index', locals: { comments: @comments } %>
           </div>
         </div>
