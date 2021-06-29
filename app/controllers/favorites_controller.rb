@@ -1,7 +1,7 @@
 class FavoritesController < ApplicationController
   def show
     @user = current_user
-    @favorites = Favorite.order("created_at DESC").where(user_id: @user.id).page(params[:page]).per(15)
+    @favorites = Favorite.order("created_at DESC").where(user_id: @user.id).page(params[:page]).per(10)
   end
   
   def user

@@ -3,13 +3,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts.page(params[:page]).per(15)
+    @posts = @user.posts.page(params[:page]).per(10)
     @post = Post.new
   end
 
 
   def index
-    @users = User.order("created_at DESC").page(params[:page]).per(15)
+    @users = User.order(updated_at: :desc).page(params[:page]).per(10)
     @post = Post.new
   end
 

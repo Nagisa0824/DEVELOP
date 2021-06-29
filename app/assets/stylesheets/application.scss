@@ -18,3 +18,37 @@
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body{
+  width: 100%;  /* autoによる既定値 */
+  height:500px;
+}
+
+* {
+margin:0;
+padding:0;
+}
+
+header{
+    background-color:maroon;
+}
+footer{
+    background-color:maroon;
+}
+.lo{
+    color:white;
+}
+main{
+    background-color:black;
+}
+.btn{
+    color:white;
+}
