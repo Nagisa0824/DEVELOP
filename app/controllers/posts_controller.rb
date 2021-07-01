@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def show
-    @post = Post.find(params[:id]).order(created_at: :desc)
+    @post = Post.find(params[:id])
     @user = @post.user
     @posts = Post.new
     @post_comment = PostComment.new
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     if @post.save
-      redirect_to post_path(@post), notice: "You have created book successfully."
+      redirect_to post_path(@post)
     else
       @user = current_user
       @posts = Post.all
@@ -42,7 +42,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to post_path(@post), notice: "You have updated book successfully."
+      redirect_to post_path(@post)
     else
       render "edit"
     end
