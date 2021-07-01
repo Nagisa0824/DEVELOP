@@ -1,5 +1,5 @@
 <!--ユーザー検索でない場合は投稿検索になる-->
-<div class="container">
+<div class="container"style="height: 700px;">
     <h2 class="lo">Search</h2>
     <% if @range == "User" %>
         <% @users.each do |user| %>
@@ -43,6 +43,7 @@
                     <div class="col-1"></div>
                 </tr>
             </div>
+             <%= paginate @users %>
         <% end %>
     <% elsif %>
         <% @posts.each do |post| %>
@@ -90,9 +91,9 @@
                     </div>
                 </tr>
             </div>
+             <%= paginate @posts %>
         <% end %>
     <% else %>
           <p class="lo">該当する結果はありません</p>
     <% end %>
-    <%= paginate @posts %>
 </div>
