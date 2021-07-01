@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def show
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id]).order(created_at: :desc)
     @user = @post.user
     @posts = Post.new
     @post_comment = PostComment.new
