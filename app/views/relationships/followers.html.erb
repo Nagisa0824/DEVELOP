@@ -1,11 +1,11 @@
-<div class="container"style="height: 700px;">
+<div class="container" style="height: 1300px;">
     <h2 class="lo">Followers User</h2>
         <% if @users.exists? %>
             <% @users.each do |user| %>
                 <div class="row border p-2">
                     
                     <tr>
-                        <div class="col-1">
+                        <div class="col-2">
                             <td>
                                 <%= link_to user_path(user.id) do %>
                                     <%= attachment_image_tag user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg" %>
@@ -46,7 +46,7 @@
                 </div>
             <% end %>
         <% else %>
-            <div class="mx-auto">
+            <div class="mx-auto"style="height: 700px;">
             <p class="lo">ユーザーはいません</p>
             </div>
         <% end %>

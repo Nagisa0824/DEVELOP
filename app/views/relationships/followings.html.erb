@@ -1,4 +1,4 @@
-<div class="container"style="height: 700px;">
+<div class="container"style="height: 1300px;">
     <h2 class="lo">Following User</h2>
     <% if @users.exists? %>
         <% @users.each do |user| %>
@@ -43,7 +43,7 @@
             </div>
         <% end %>
     <% else %>
-        <div class="mx-auto">
+        <div class="mx-auto"style="height: 700px;">
             <p class="lo">ユーザーはいません</p>
         </div>
     <% end %>
